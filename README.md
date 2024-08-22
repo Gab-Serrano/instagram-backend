@@ -27,3 +27,7 @@ Desarrollar el backend para una aplicación que permita a los usuarios registrar
 ## Ramas del repositorio
 
 - Reforzamiento-1: implementación básica del microservicio 1. Construcción de clases de la Spring y CRUD en memoria local usando `ArrayList`.
+
+## Endpoints y testing
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/30070770-e38347e1-b91d-4c6a-a6d2-83d4633efad8?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D30070770-e38347e1-b91d-4c6a-a6d2-83d4633efad8%26entityType%3Dcollection%26workspaceId%3Ddf43087f-790d-43d5-98f2-2a8c8f3988ce)
