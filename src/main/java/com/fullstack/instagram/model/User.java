@@ -34,7 +34,7 @@ public class User {
 
     @NotNull
     @Column(unique=true)
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 20)
     @Pattern(regexp = "^[a-zA-Z0-9._-]+$")
     private String username;
 
@@ -48,7 +48,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min = 3, max = 10)
+    @Size(min = 3, max = 20)
     private String name;
     
     private LocalDate birthdate;

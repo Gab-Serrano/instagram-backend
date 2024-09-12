@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
 
    @ExceptionHandler(Exception.class)
    public ResponseEntity<Object> handleGlobalException(Exception ex, WebRequest request) {
-      logger.error("An unexpected error occurred. {}", ex.getMessage());
-      logger.debug("Error details: {}", ex);
+      logger.error("An unexpected error occurred: {}", ex.getMessage(), ex);
+
       Map<String, Object> body = new HashMap<>();
       body.put("timestamp", LocalDateTime.now());
       body.put("message", ex.getMessage());
@@ -52,13 +52,17 @@ public class GlobalExceptionHandler {
    }
 
    @ExceptionHandler(DatabaseTransactionException.class)
-   public ResponseEntity<Object> handleDatabaseTransactionException(DatabaseTransactionException ex, WebRequest request) {
-      logger.error("Database transaction error. {}", ex.getMessage());
-      logger.debug("Error details: {}", ex);
+   public ResponseEntity<Object> handleDatabaseTransactionException(DatabaseTransactionException ex,
+         WebRequest request) {
+      logger.error("Database transaction error. {}", ex.getMessage(), ex); // Capturar stack trace completo
+      Throwable rootCause = ex.getCause(); // Obtenemos la causa raíz del error
       Map<String, Object> body = new HashMap<>();
       body.put("message", ex.getMessage());
       body.put("details", request.getDescription(false));
-      body.put("SQL error", ex.getCause().getMessage());
+
+      if (rootCause != null) {
+         body.put("cause", rootCause.getMessage()); // Mostrar el mensaje de la causa raíz
+      }
 
       return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
    }

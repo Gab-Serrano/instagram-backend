@@ -60,27 +60,33 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (updateRequest.getUsername() != null) {
-            logger.info("Updating username to: {} - method updateUser", updateRequest.getUsername());
-            user.setUsername(updateRequest.getUsername());
-        }
-        if (updateRequest.getPassword() != null) {
-            logger.info("Updating password to: {} - method updateUser", updateRequest.getPassword());
-            user.setPassword(updateRequest.getPassword());
-        }
-        if (updateRequest.getEmail() != null) {
-            logger.info("Updating email to: {} - method updateUser", updateRequest.getEmail());
-            user.setEmail(updateRequest.getEmail());
-        }
-        if (updateRequest.getBirthdate() != null) {
-            logger.info("Updating birthdate to: {} - method updateUser", updateRequest.getBirthdate());
-            user.setBirthdate(updateRequest.getBirthdate());
-        }
+        try {
+            if (updateRequest.getUsername() != null) {
+                logger.info("Updating username to: {} - method updateUser", updateRequest.getUsername());
+                user.setUsername(updateRequest.getUsername());
+            }
+            if (updateRequest.getPassword() != null) {
+                logger.info("Updating password to: {} - method updateUser", updateRequest.getPassword());
+                user.setPassword(updateRequest.getPassword());
+            }
+            if (updateRequest.getEmail() != null) {
+                logger.info("Updating email to: {} - method updateUser", updateRequest.getEmail());
+                user.setEmail(updateRequest.getEmail());
+            }
+            if (updateRequest.getBirthdate() != null) {
+                logger.info("Updating birthdate to: {} - method updateUser", updateRequest.getBirthdate());
+                user.setBirthdate(updateRequest.getBirthdate());
+            }
 
-        logger.info("Saving user - method updateUser");
-        User updatedUser = userRepository.save(user);
-        logger.info("User updated successfully. User ID: {}", updatedUser.getId());
-        return updatedUser;
+            logger.info("Saving user - method updateUser");
+            User updatedUser = userRepository.save(user);
+            logger.info("User updated successfully. User ID: {}", updatedUser.getId());
+            return updatedUser;
+
+        } catch (Exception e) {
+            logger.error("Error updating user with ID: {} - Error: {}", id, e.getMessage());
+            throw new DatabaseTransactionException("Failed to update user", e); // Manejar error
+        }
     }
 
     @Override
