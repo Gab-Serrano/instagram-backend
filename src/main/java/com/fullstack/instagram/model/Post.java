@@ -29,8 +29,8 @@ import lombok.NoArgsConstructor;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_info_seq")
-    @SequenceGenerator(name = "profile_info_seq", sequenceName = "profile_info_sequence", allocationSize = 1, initialValue = 1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
+    @SequenceGenerator(name = "post_seq", sequenceName = "post_seq", allocationSize = 1, initialValue = 1000)
     private Long id;
 
     @NotNull
