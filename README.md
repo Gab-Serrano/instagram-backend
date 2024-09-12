@@ -2,32 +2,15 @@
 
 ## 📚 Caso de estudio
 
-Desarrollar el backend para una aplicación que permita a los usuarios registrarse, iniciar sesión, gestionar sus perfiles, y subir y gestionar fotos. La aplicación debe incluir funcionalidades básicas de CRUD (Crear, Leer, Actualizar, Eliminar) para usuarios y fotos. Nos centraremos en la gestión de usuarios.
+Desarrollar el backend para una aplicación que permita a los usuarios registrarse, iniciar sesión, gestionar sus perfiles, y subir y gestionar fotos. La aplicación debe incluir funcionalidades básicas de CRUD (Crear, Leer, Actualizar, Eliminar) para usuarios y posts. Nos centraremos en la gestión de usuarios y sus posts.
 
-### 💻 Microservicio 1
+### 💻 Microservicio
 
 - **Registro de Usuarios**: Los usuarios deben poder crear una cuenta proporcionando un nombre de usuario, correo electrónico y contraseña.
 
-- **Inicio de Sesión (Login)**: Los usuarios registrados deben poder iniciar sesión utilizando su nombre de usuario o correo electrónico y contraseña.
+- **Inicio de Sesión (Login)**: Los usuarios registrados deben poder iniciar sesión utilizando su nombre de usuario o correo electrónico y contraseña (Pendiente).
 
 - **Perfil de Usuario**: Cada usuario debe tener un perfil donde pueda ver y actualizar su información personal, como nombre, correo electrónico, y foto de perfil.
 
 - **CRUD de Usuarios**: Los usuarios deben poder editar su información, ver su perfil, y eliminar su cuenta si lo desean.
-
-### 💻 Microservicio 2
-
-- **Subida de Fotos**: Los usuarios deben poder subir fotos desde sus dispositivos y asociarlas a su perfil.
-
-- **Visualización de Fotos**: Los usuarios deben poder ver sus fotos subidas en su perfil.
-
-- **Edición de Fotos**: Los usuarios deben poder editar detalles de las fotos, como la descripción o el título.
-
-- **Eliminación de Fotos**: Los usuarios deben poder eliminar fotos de su perfil.
-
-## Ramas del repositorio
-
-- Reforzamiento-1: implementación básica del microservicio 1. Construcción de clases de la Spring y CRUD en memoria local usando `ArrayList`.
-
-## Endpoints y testing
-
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/30070770-e38347e1-b91d-4c6a-a6d2-83d4633efad8?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D30070770-e38347e1-b91d-4c6a-a6d2-83d4633efad8%26entityType%3Dcollection%26workspaceId%3Ddf43087f-790d-43d5-98f2-2a8c8f3988ce)
+- **CRUD de Posts**: Los usuarios deben poder crear y eliminar post (imagen y texto).
