@@ -16,16 +16,19 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends RepresentationModel<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
