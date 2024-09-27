@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +27,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post extends RepresentationModel<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")

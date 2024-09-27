@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +23,9 @@ import com.fullstack.instagram.service.profileinfo.ProfileInfoService;
 
 import lombok.RequiredArgsConstructor;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/v1/profile-info")
 @RequiredArgsConstructor
@@ -31,41 +36,48 @@ public class ProfileInfoController {
     private final ProfileInfoService profileInfoService;
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProfileInfo> patchProfileInfo(@PathVariable Long id,
-            @RequestBody ProfileInfoUpdateRequest updateRequest) {
+    public ResponseEntity<EntityModel<ProfileInfo>> patchProfileInfo(@PathVariable Long id,
+                                                                     @RequestBody ProfileInfoUpdateRequest updateRequest) {
         logger.info("Updating profile info with id: {}", id);
         ProfileInfo updatedProfileInfo = profileInfoService.updateProfileInfo(id, updateRequest);
-        logger.info("Updated profile info ID: {}", updatedProfileInfo.getId());
-        return new ResponseEntity<>(updatedProfileInfo, HttpStatus.OK);
+        EntityModel<ProfileInfo> profileInfoModel = EntityModel.of(updatedProfileInfo);
+        profileInfoModel.add(linkTo(methodOn(ProfileInfoController.class).getProfileInfoById(id)).withSelfRel());
+
+        return ResponseEntity.ok(profileInfoModel);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileInfo> getProfileInfoById(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<ProfileInfo>> getProfileInfoById(@PathVariable Long id) {
         logger.info("Getting profile info by id: {}", id);
         Optional<ProfileInfo> profileInfo = profileInfoService.findProfileInfoById(id);
         if (profileInfo.isPresent()) {
-            logger.info("Found profile info id: {}", profileInfo.get().getId());
-            return new ResponseEntity<>(profileInfo.get(), HttpStatus.OK);
+            EntityModel<ProfileInfo> profileInfoModel = EntityModel.of(profileInfo.get());
+            profileInfoModel.add(linkTo(methodOn(ProfileInfoController.class).getProfileInfoById(id)).withSelfRel());
+
+            return ResponseEntity.ok(profileInfoModel);
         } else {
-            logger.info("Profile info not found by id: {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProfileInfo>> getAllProfileInfos() {
+    public ResponseEntity<CollectionModel<EntityModel<ProfileInfo>>> getAllProfileInfos() {
         logger.info("Getting all profile infos");
-        List<ProfileInfo> profileInfos = profileInfoService.findAllProfileInfos();
-        logger.info("Found {} profile infos", profileInfos.size());
-        return new ResponseEntity<>(profileInfos, HttpStatus.OK);
+        List<EntityModel<ProfileInfo>> profileInfos = profileInfoService.findAllProfileInfos().stream()
+                .map(profile -> {
+                    EntityModel<ProfileInfo> profileInfoModel = EntityModel.of(profile);
+                    profileInfoModel.add(linkTo(methodOn(ProfileInfoController.class).getProfileInfoById(profile.getId())).withSelfRel());
+                    return profileInfoModel;
+                }).toList();
+
+        return ResponseEntity.ok(CollectionModel.of(profileInfos,
+                linkTo(methodOn(ProfileInfoController.class).getAllProfileInfos()).withSelfRel()));
     }
 
-    @DeleteMapping("/profile-info/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfileInfo(@PathVariable Long id) {
         logger.info("Deleting profile info with id: {}", id);
         profileInfoService.deleteProfileInfoById(id);
-        logger.info("Profile info deleted with id: {}", id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-

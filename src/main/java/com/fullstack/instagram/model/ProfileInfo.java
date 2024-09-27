@@ -15,16 +15,19 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 
 @Entity
 @Table(name = "profile_info")
-public class ProfileInfo {
+public class ProfileInfo extends RepresentationModel<ProfileInfo> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_info_seq")

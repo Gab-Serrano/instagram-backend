@@ -28,13 +28,13 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post savePost(PostCreateRequest postRequest) {
         logger.debug("Saving post with request: {} - method savePost", postRequest);
-        Long ProfileInfoId = postRequest.getProfileInfoId();
-        if (ProfileInfoId != null) {
+        Long profileInfoId = postRequest.getProfileInfoId();
+        if (profileInfoId != null) {
             Post post = Post.builder()
                     .caption(postRequest.getCaption())
                     .imageUrl(postRequest.getImageUrl())
                     .createdAt(LocalDateTime.now())
-                    .profileInfo(profileInfoService.findProfileInfoById(ProfileInfoId)
+                    .profileInfo(profileInfoService.findProfileInfoById(profileInfoId)
                             .orElseThrow(() -> new ResourceNotFoundException("ProfileInfo not found")))
                     .build();
             Post savedPost = postRepository.save(post);
