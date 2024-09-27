@@ -10,7 +10,7 @@ COPY wallet /app/wallet
 
 ENV TNS_ADMIN=/app/wallet
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 FROM eclipse-temurin:22-jdk
 
